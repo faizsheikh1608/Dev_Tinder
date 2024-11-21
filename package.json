@@ -1,0 +1,17 @@
+{
+  "name": "dev-tinder",
+  "version": "1.0.0",
+  "description": "It is A Tinder For Dev",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "1234"
+  ],
+  "author": "Faiz",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.1"
+  }
+}
