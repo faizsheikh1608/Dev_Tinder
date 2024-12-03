@@ -1,48 +1,24 @@
 const express = require("express");
-const connectDB = require("../config/database");
-const User = require("../models/user.js");
+const connectDB = require("./config/database");
+const cookieParser = require("cookie-parser");
+const requestRouter = require("./router/requestRouter");
+const authRouter = require("./router/authRouter");
+const profileRouter = require("./router/profileRouter");
+const userRouter = require("./router/userRouter");
+
 //creating a web server
 
 const app = express();
+
 //Middleware for parsing JSON data
 app.use(express.json());
+app.use(cookieParser());
 
-//Reading Data
-//Reading all  Data
-app.get("/feed", async (req, res) => {
-  try {
-    const user = await User.find({});
-    res.send(user);
-  } catch (err) {
-    res.status(400).send("Something Went Wrong");
-  }
-});
-
-app.post("/signup", async (req, res) => {
-  //creating new instance of user model
-  const user = new User(req.body);
-
-  try {
-    //Saving data in database
-    await user.save();
-    res.send("Data save Succesfully");
-  } catch (err) {
-    res.status(500).send("Something Went Wrong");
-  }
-});
-
-//Delete a User
-app.delete("/user", async (req, res) => {
-  const userId = req.body.userId;
-
-  try {
-    const user = await User.findByIdAndDelete(userId);
-    console.log(user);
-    res.send("Data deleted");
-  } catch (err) {
-    res.status(400).send("Something Went Wrong");
-  }
-});
+//Routing
+app.use("/", authRouter);
+app.use("/", profileRouter);
+app.use("/", requestRouter);
+app.use("/", userRouter);
 
 //connecting DB & Seting Port No.
 connectDB()
